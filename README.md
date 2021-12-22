@@ -13,3 +13,6 @@
 
 ## ERD 
 ![DB Project ERD_img (4)](https://user-images.githubusercontent.com/62079690/147151090-55a1725e-3613-430c-b7a2-2b29ab933cfe.jpg)
+
+## Conceptual Design 
+![Conceptual_Design](https://user-images.githubusercontent.com/62079690/147151268-7cb9873d-2071-439b-b59f-61a5b5fa5607.PNG)
