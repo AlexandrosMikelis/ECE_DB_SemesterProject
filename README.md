@@ -1,7 +1,14 @@
 # ECE_DB_SemesterProject
 
 ## Description
-  Make a database for a library network 
+  Make a database for a network of Libraries
+  
+  Τα βήματα που πρέπει να ακολουθήσουμε έιναι τα εξής :
+  - [x] Να συντάξουμε τον μικρόκοσμο.
+  - [x] Να δημιουργήσουμε το ERD (Εntity Relational Design) του μικρόκοσμου αυτόυ.
+  - [x] Να δημιουργήσουμε το Conceptual Design του προβλήματος.
+  - [ ] Να δημιουργήσουμε την βάση μας.
+  - [ ] Να δημιουργήσουμε ένα προγραμμα το οποίο την διαχειρήζεται.
 
 
 ## Microcosm
