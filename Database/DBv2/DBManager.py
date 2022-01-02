@@ -1,102 +1,120 @@
-def insert_category(conn):
-    print("    ","-"*60)
-    print("    Welcome to Category Manager.\n        Here you can add a new category for your books")
-    print("    ","-"*60)
+from types import TracebackType
+import sqlite3
+import os.path
+import sys 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+class DBManager:
+    """
+    A class to represent a Manager of our DB.
+    Basic CRUD operation executes here in a dynamic way.
+
+    ...
+
+    Attributes
+    ----------
+    path : str
+        The full name of the DB file with .db at the end
+
+    Methods
+    -------
+    SELECT(table,data="*",condition="")
+        Execute SQL SELECT operation or R operation within given table.
+        data represent which data we want to choose from table , default value -> all ("*")
+        condition represent the condition to select the given data.
+
+        Example:
+
+            SELECT("Book","*",condition="Book_ID > 4")
+            - This will print all fields of Books where Book ID is bigger than 4
+
+    INSERT(table,fields,data)
+        Execute SQL INSERT operation or C operation withing given table.
+        fields represent the fields of table that we want to add data
+        data represent the actual data we want to insert in the given fields
+
+    UPDATE(table,setter,condition)
+        Execute SQL UPDATE operation or U operation within given table.
+        setter represent the updates(with data) that you want to change
+        condition represent in which row we are going to update data
+
+    DELETE(table,condition)
+        Execute SQL DELETE operation or D operation within given table.
+        condition represent which row or rows we are going to delete
+
+    ErrorInfo(er)
+        If an error occurs while CRUD operations this function will print all error info
+
+    save()
+        Will save the changes that we did in DB.
+
+    close()
+        Will close the connection that we have with DB.
+    """
+
+    __DBPath = ""
+
+    def __init__(self,path):
+
+        DBManager.__DBPath=os.path.join(BASE_DIR,path)
+        self.connection = sqlite3.connect(DBManager.__DBPath,check_same_thread=False)
+        self.cursor = self.connection.cursor()
+        
+    def SELECT(self,table,data="*",condition=""):
+        df = []
+        sql = f"SELECT {data} FROM {table} WHERE {condition}" if condition else f"SELECT {data} FROM {table}" 
+
+        self.cursor = self.connection.execute(sql)
+        for row in self.cursor:
+            df.append(row)
+        
+        return df
     
-    try:
-        Name = input("    Please enter a new Category name : ")
-        Category_ID = input("    Add an ID for your Category : ")
-        Section_ID = input("    Add the Section ID : ")
+    def INSERT(self,table,fields,data):
 
-        conn.execute('''INSERT INTO Category (Name,Section_ID,Category_ID) VALUES ('{}',{},{})'''.format(Name,Section_ID,Category_ID))
-        
-    except sqlite3.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
-        print("Exception class is: ", er.__class__)
-        print('SQLite traceback: ')
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(traceback.format_exception(exc_type, exc_value, exc_tb))
-        
-def select_category(conn):
-    Categories = []
-    cursor = conn.execute("SELECT Name from Category")
-    for row in cursor:
-        Categories.append(row[0])
+        try:
+            self.connection.execute(f"INSERT INTO {table} {fields} VALUES {data}")
 
-    Categories = list(dict.fromkeys(Categories))
-    return Categories
+        except sqlite3.Error as er:
+            self.ErrorInfo(er)
 
-def insert_book(conn):
-    print("-"*60)
-    print(" Welcome to Book Manager.\n    Here you can add a new book into your Library.")
-    print("-"*60)
-    try:
-        Title = input("Title         : ")
-        ISBN = int(input("ISBN          : "))
-        Author = input("Author        : ")
-        Publisher = input("Publicher     : ")
-        Availability = bool(input("Availability  : "))
-        Quantity = int(input("Quantity      : "))
-        Condition = input("Condition     : ")
-        
-        print(select_category(conn))
-        if(input("Does the category of the book belong here [Y/n]?") in "Yy" ):
-            pass
-        else:
-            insert_category(conn)
-        Category = int(input("Category ID :"))   
-        Book_ID = int(input("Book_ID :"))
-        
-        conn.execute('''INSERT INTO Book (Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID) \
-                     VALUES ('{}',{},'{}','{}',{},{},'{}',{},{})'''.format(Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category,Book_ID))
+    def UPDATE(self,table,setter,condition):
 
-        print("The book succefully inserted.Please provide us the Library you want it")
-        select_library()
-        #MUST BE A DIFFERENT FUNCTION
-        Library_ID = input("Enter Library ID: ")
-        conn.execute('''INSERT INTO Library_Link_Book (Book_ID,Library_ID) \
-                     VALUES ({},{})'''.format(Book_ID,Library_ID))
-    except sqlite3.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
-        print("Exception class is: ", er.__class__)
-        print('SQLite traceback: ')
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(traceback.format_exception(exc_type, exc_value, exc_tb))
-        
-def select_book(conn):
-    cursor = conn.execute("SELECT Title,ISBN,Author,Publisher,Availability,Quantity,Condition from Book")
-    for row in cursor:
-        print(row[0]," ",row[1]," ",row[2]," ",row[3]," ",row[4]," ",row[5]," ",row[6])
-    
-def select_library(conn):
-    cursor = conn.execute("SELECT Name,Library_ID from Library")
-    for row in cursor:
-        print(row[0]," "*30,row[1])
+        try:
+            self.connection.execute(f"UPDATE {table} SET {setter} WHERE {condition}") 
 
-def App(conn):
-    print("Welcome to DBManager")
-    while(1):
-        print("Option 0: Type '0' to Save")
-        print("Option 1: Type '1' to Insert a new Book")
-        print("Option 2: Type '2' to Review all Books in DB")
-        print("Press nothing to exit")
+        except sqlite3.Error as er:
+            self.ErrorInfo(er)
+
+    def DELETE(self,table,condition):
         
         try:
-            choice = int(input("Please Enter the option you want : "))
-        except:
-            break
-        if choice == 0:
-            conn.commit()
-        elif choice == 1:
-            insert_book(conn)
-        elif choice == 2:
-            select_book(conn)
-        else:
-            break
-        
-import sqlite3
+            self.connection.execute(f"DELETE FROM {table} WHERE {condition}")
 
-conn = sqlite3.connect('LibNetwork.db')
-App(conn)
-conn.commit()
-conn.close()
+        except sqlite3.Error as er:
+            self.ErrorInfo(er)
+
+    def ErrorInfo(self,er):
+
+        print('SQLite error: %s' % (' '.join(er.args)))
+        print("Exception class is: ", er.__class__)
+        print('SQLite traceback: ')
+
+    def save(self):
+        self.connection.commit()
+
+    def close(self):
+        self.connection.close()
+
+''' 
+    RULES:
+
+    BOOK:
+        1) If a book is deleted then it must be deleted from Library link Book as well
+        2) If a book is created it must have a category and section if they dont exist they must be created first
+        3) If a book is created then a connection to a library must be created
+    
+    CATEGORY:
+        1) If a category is created it must have a section otherwise create a section
+        2) If a category is deleted then we must deleted all the containing books 
+''' 
