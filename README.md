@@ -28,7 +28,7 @@
 Το δικτυο μας θέλουμε να υποστηρίζει InterLibrary Loan , δηλαδή αν μια βιβλιοθήκη δεν έχει κάποιο βιβλιό να μπορεί να δανειστεί απο κάποια άλλη βιβλιοθήκη το εκάστοτε βιβλίο.
 
 ## ERD 
-![DB Project ERD_img (4)](https://user-images.githubusercontent.com/62079690/147151090-55a1725e-3613-430c-b7a2-2b29ab933cfe.jpg)
+![DB Project ERD](https://user-images.githubusercontent.com/62079690/148119061-dd90d805-3b29-4ccb-90b0-5f21815f0677.jpg)
 
 ## Conceptual Design 
 #### Using **DB Designer**
