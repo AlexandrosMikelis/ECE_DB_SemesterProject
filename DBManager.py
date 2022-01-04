@@ -1,7 +1,7 @@
 from types import TracebackType
 import sqlite3
 import os.path
-
+import sys 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class DBManager:
@@ -57,7 +57,7 @@ class DBManager:
     def __init__(self,path):
 
         DBManager.__DBPath=os.path.join(BASE_DIR,path)
-        self.connection = sqlite3.connect(DBManager.__DBPath)
+        self.connection = sqlite3.connect(DBManager.__DBPath,check_same_thread=False)
         self.cursor = self.connection.cursor()
         
     def SELECT(self,table,data="*",condition=""):
@@ -99,8 +99,6 @@ class DBManager:
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
         print('SQLite traceback: ')
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(TracebackType.format_exception(exc_type, exc_value, exc_tb))
 
     def save(self):
         self.connection.commit()
@@ -108,60 +106,6 @@ class DBManager:
     def close(self):
         self.connection.close()
 
-class Employee:
-    Section = {"Name":"","ID":None}
-    Library = {"Name":"","ID":None}
-
-    def __init__(self,email,ssn,Manager):
-        self._email = email
-        self._ssn = int(ssn)
-        self.Manager = Manager
-
-        self.__Configure()
-
-    def __Configure(self):
-        E_data = self.Manager.SELECT("Employee","*",f"Email='{self._email}' and SSN = {self._ssn}")
-
-        if(E_data):
-            self.name = E_data[0]
-            self.surname = E_data[1]
-
-            Employee.Section["ID"] = E_data[-1]
-            S_data = self.Manager.SELECT("Section","*",f"Section_ID = {E_data[-1]}")
-            Employee.Section["Name"] = S_data[0]
-
-            Employee.Library["ID"] = S_data[1]
-            L_data = self.Manager.SELECT("Library","*",f"Library_ID = {S_data[1]}")
-            Employee.Library["Name"] = L_data[2]
-
-            print(f"Welcome {self.name} {self.surname} ")
-        else:
-            print("Please enter valid Employee credentials")
-    
-    def addBook(self):
-        pass
-    def addCustomer(self):
-        pass
-    def LendBook(self):
-        pass
-
-class DBAdmin(Employee):
-
-    def __init__(self, email, ssn, Manager):
-        super().__init__(email, ssn, Manager)
-
-    def __Configure(self):
-        return super().__Configure()  
-
-    def addLibrary(self):
-        pass
-
-    def addSection(self):
-        pass
-
-    def addEmployee(self):
-        pass
-          
 ''' 
     RULES:
 
@@ -173,8 +117,4 @@ class DBAdmin(Employee):
     CATEGORY:
         1) If a category is created it must have a section otherwise create a section
         2) If a category is deleted then we must deleted all the containing books 
-'''        
-Manager = DBManager("LibNetwork.db")
-Manager.SELECT("Book","Title","Book_ID=9")
-Manager.save()
-Manager.close()
+''' 
