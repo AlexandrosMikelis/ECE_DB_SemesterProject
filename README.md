@@ -32,6 +32,4 @@
 
 ## Conceptual Design 
 #### Using **DB Designer**
-![Conceptual_Design](https://user-images.githubusercontent.com/62079690/147151268-7cb9873d-2071-439b-b59f-61a5b5fa5607.PNG)
-#### Using **Drawio**
-![ECE_DB_RS](https://user-images.githubusercontent.com/62079690/147151813-b21e373a-078b-474d-b95e-51a088dd82e8.png)
+![Project_Conceptual_Design](https://user-images.githubusercontent.com/62079690/148118946-8242ce48-2933-4dc4-b022-28477d9cc8f8.png)
