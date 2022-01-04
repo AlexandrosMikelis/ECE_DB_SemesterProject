@@ -35,15 +35,15 @@ class Employee:
         return InfoTable
 
     def addBook(self,Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID):
-        Manager.INSERT("Book","(Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID)",f"('{Title}',{int(ISBN)},'{Author}','{Publisher}',{bool(Availability)},{int(Quantity)},'{Condition}',{int(Category_ID)},{int(Book_ID)})")
-        Manager.save()
+        self.Manager.INSERT("Book","(Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID)",f"('{Title}',{int(ISBN)},'{Author}','{Publisher}',{bool(Availability)},{int(Quantity)},'{Condition}',{int(Category_ID)},{int(Book_ID)})")
+        self.Manager.save()
     
     def showBook(self,filter,fields,values):
         val = f"and {values}" if values else ""
         if filter == 0:
-            showcase = Manager.SELECT("Book,Library_Link_Book",','.join(fields),f"Library_Link_Book.Book_ID = Book.Book_ID {val}")
+            showcase = self.Manager.SELECT("Book,Library_Link_Book",','.join(fields),f"Library_Link_Book.Book_ID = Book.Book_ID {val}")
         elif filter == 1:
-            showcase = Manager.SELECT("Book,Category",','.join(fields),f"Category.Category_ID = Book.Category_ID and Section_ID = {Employee.Section['ID']}")
+            showcase = self.Manager.SELECT("Book,Category",','.join(fields),f"Category.Category_ID = Book.Category_ID and Section_ID = {Employee.Section['ID']}")
         return showcase
         
     def addCustomer(self):
@@ -80,6 +80,3 @@ class DBAdmin(Employee):
 
     def deleteSection(self):
         pass
-Manager = DBManager("LibNetwork.db")
-newEmployee = Employee("JP@gmail.com",23080002895,Manager)
-newEmployee.Info()

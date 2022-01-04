@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
+DBPath = "Database/DB/LibNetwork.db"
+
 def ClearData(data):
     clearedData = []
     for d in data:
@@ -20,7 +22,7 @@ ssn = st.sidebar.text_input("SSN")
 
 if st.sidebar.checkbox("Login") :
 
-    Manager = DBManager("LibNetwork.db")
+    Manager = DBManager(DBPath)
     Emp = Employee("JP@gmail.com",23080002895,Manager)
 
     menu = st.sidebar.radio(
