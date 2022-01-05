@@ -1,4 +1,4 @@
-# ECE_DB_SemesterProject
+# ECE_DB_SemesterProject [![stability][0]][1]
 
 ## Setup 
   In order to run this `streamlit` app you have to complete some setup steps first.
