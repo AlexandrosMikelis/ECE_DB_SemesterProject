@@ -47,13 +47,18 @@ if st.sidebar.checkbox("Login") :
         EmployeeContainer[0].image(image, caption='Employee Photo')
 
         for i in range(len(Labels)):
-            EmployeeContainer[1].write(Labels[i])
-            EmployeeContainer[2].write(inf[i])
+            if i == 4 or i == 5:
+                EmployeeContainer[1].write(Labels[i])
+                EmployeeContainer[2].write(inf[i]["Name"] + " | ID: " + str(inf[i]["ID"]) )
+            else:
+                EmployeeContainer[1].write(Labels[i])
+                EmployeeContainer[2].write(inf[i])
 
     elif menu == "Book":
         st.subheader("Manage Library Books") 
 
         BookMenu = st.radio("Book Section",('Show Books','Add Book','Update Book','Delete Book'))
+
         if BookMenu == "Show Books":
             filters = st.columns(2)
 
@@ -104,14 +109,29 @@ if st.sidebar.checkbox("Login") :
             Quantity = cols[2].text_input("Quantity")
 
             Condition = cols[0].selectbox("Condition",("Good","Medium","Bad"))
-            Category_ID = cols[1].selectbox("Category",ClearData(Manager.SELECT("Category","Name",f"Section_ID = '{Emp.Section['ID']}'")))
+            CategoriesTable = Manager.SELECT("Category","Name,Category_ID",f"Section_ID = '{Emp.Section['ID']}'")
+            Category_ID = cols[1].selectbox("Category",ClearData(CategoriesTable))
             Book_ID = cols[2].text_input("Book ID",placeholder = ClearData(Manager.SELECT("Book","Book_ID + 1","Book_ID=(SELECT max(Book_ID) FROM Book)"))[0])
 
+            for content in CategoriesTable :
+                if content[0] == Category_ID:
+                    Category_ID = content[1]
+            
             Submit = cols[0].button("Submit")
             if Submit :
                 Emp.addBook(Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID)
+
+        elif BookMenu == "Update Book":
+            pass
+        
+        elif BookMenu == "Delete BooK":
+            pass
+        
         Manager.close()
+    elif menu == "Customer":
+        pass
 else:
+    st.subheader("Welcome Guest")
     st.write("Please **Login** with your **Employee Credentials**")
             
 

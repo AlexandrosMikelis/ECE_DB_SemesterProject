@@ -45,13 +45,25 @@ class Employee:
         elif filter == 1:
             showcase = self.Manager.SELECT("Book,Category",','.join(fields),f"Category.Category_ID = Book.Category_ID and Section_ID = {Employee.Section['ID']}")
         return showcase
-        
-    def addCustomer(self):
-        pass
+
     def deleteBook(self):
         pass
+    
+    def updateBook(self):
+        pass
+    
+    def showCustomer(self):
+        pass
+    
+    def addCustomer(self):
+        pass
+    
+    def updateCustomer(self):
+        pass
+
     def deleteCustomer(self):
         pass
+
     def LendBook(self):
         pass
 
