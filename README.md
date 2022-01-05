@@ -1,5 +1,10 @@
 # ECE_DB_SemesterProject
 
+## Setup 
+  In order to run this `streamlit` app you have to complete some setup steps first.
+  - Open the folder that contains App.py which is the main folder of zip.
+  - Type `pip install requirements.txt` this will install all the necessary libraries.
+  - Run `streamlit run App.py` and you are done!
 ## Description
   Make a database for a network of Libraries
   
