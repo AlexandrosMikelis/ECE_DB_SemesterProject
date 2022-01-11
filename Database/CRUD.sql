@@ -68,3 +68,31 @@
 --INSERT INTO Employee ("Employee_ID ",First_Name,Last_Name,Email,Phone,Address,Section_ID) VALUES (23080002895,'John','Papadopoulos','JP@gmail.com',6978901211,'Agia Sofia 23',1);
 --INSERT INTO Employee ("Employee_ID ",First_Name,Last_Name,Email,Phone,Mgr_ID,Address,Section_ID) VALUES (23080002896,'Alexandros','Mikelis','AM@gmail.com',6978901212,23080002895,'Agia Sofia 24',1);
 --INSERT INTO Employee ("Employee_ID ",First_Name,Last_Name,Email,Phone,Mgr_ID,Address,Section_ID) VALUES (23080002897,'John','Skarpetis','JS@gmail.com',6978901213,23080002895,'Agia Sofia 25',1);
+
+/*
+	Employee Contract creation
+*/
+
+--INSERT INTO Employee_Contract(Employee_ID,Days_Off,Standard_Payment,Employee_Job,Start_Date,End_Date) VALUES (23080002895,25,1200,"Διαχειρηστής","24-5-2020","24-5-2025");
+--INSERT INTO Employee_Contract(Employee_ID,Days_Off,Standard_Payment,Employee_Job,Start_Date,End_Date) VALUES (23080002896,14,800,"Yπάλληλος","26-8-2021","26-8-2024");
+--INSERT INTO Employee_Contract(Employee_ID,Days_Off,Standard_Payment,Employee_Job,Start_Date,End_Date) VALUES (23080002897,14,800,"Βιβλιοθηκάριος","12-3-2021","12-3-2024");
+
+/*
+	Customer creation
+*/
+
+--INSERT INTO Customer(First_Name,Last_Name,Phone_Number,Email,Address) VALUES ("George","Giannopoulos",6989029455,"G.Giannopoulos@gmail.com","Riga Feraiou 29");
+--INSERT INTO Customer(First_Name,Last_Name,Phone_Number,Email,Address) VALUES ("Anastasia","Papadimitriou",6979079385,"AnaPapa@gmail.com","Korinthou 90");
+--INSERT INTO Customer(First_Name,Last_Name,Phone_Number,Email,Address) VALUES ("Periklis","Papanikolaou",6979899435,"Periklis@gmail.com","Maizonos 46");
+
+/*
+	Customer Membership creation
+*/
+
+--INSERT INTO Customer_Membership(Customer_ID,Start_Date,End_Date,Title,Max_Books,Payment) VALUES (1,"1-1-2022","1-1-2023","Gold Membership",15,40);
+--INSERT INTO Customer_Membership(Customer_ID,Start_Date,End_Date,Title,Max_Books,Payment) VALUES (2,"10-1-2022","10-7-2022","Silver Membership",7,20);
+--INSERT INTO Customer_Membership(Customer_ID,Start_Date,End_Date,Title,Max_Books,Payment) VALUES (3,"21-12-2021","21-1-2023","Free Membership",2,0);
+
+/*
+
+*/
