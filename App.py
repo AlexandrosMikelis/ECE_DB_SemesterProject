@@ -49,7 +49,7 @@ if st.sidebar.checkbox("Login") :
         for i in range(len(Labels)):
             if i == 4 or i == 5:
                 EmployeeContainer[1].write(Labels[i])
-                EmployeeContainer[2].write(inf[i]["Name"] + " | ID: " + str(inf[i]["ID"]) )
+                EmployeeContainer[2].write(str(inf[i]["Name"]) + " | ID: " + str(inf[i]["ID"]) )
             else:
                 EmployeeContainer[1].write(Labels[i])
                 EmployeeContainer[2].write(inf[i])
@@ -88,7 +88,7 @@ if st.sidebar.checkbox("Login") :
             if fields:
                 fbv_string = ""
                 for length in range(len(results)):
-                    fbv_string = fbv_string + f"{filter_by_value[length]} = '{results[length]}' and"
+                    fbv_string = fbv_string + f" {filter_by_value[length]} = '{results[length]}' and"
                 fbv_string = fbv_string[:-3]
                 st.write(fbv_string)
                 DataArray = np.array(Emp.showBook(filter_,fields,fbv_string))
@@ -106,12 +106,11 @@ if st.sidebar.checkbox("Login") :
             Publisher = cols[0].text_input("Publisher")
             Availability = cols[1].selectbox("Availability",("True","False"))
             Availability = "" if Availability=="False" else "True"
-            Quantity = cols[2].text_input("Quantity")
 
-            Condition = cols[0].selectbox("Condition",("Good","Medium","Bad"))
+            Condition = cols[2].selectbox("Condition",("Good","Medium","Bad"))
             CategoriesTable = Manager.SELECT("Category","Name,Category_ID",f"Section_ID = '{Emp.Section['ID']}'")
-            Category_ID = cols[1].selectbox("Category",ClearData(CategoriesTable))
-            Book_ID = cols[2].text_input("Book ID",placeholder = ClearData(Manager.SELECT("Book","Book_ID + 1","Book_ID=(SELECT max(Book_ID) FROM Book)"))[0])
+            Category_ID = cols[0].selectbox("Category",ClearData(CategoriesTable))
+            Book_ID = cols[1].text_input("Book ID",placeholder = ClearData(Manager.SELECT("Book","Book_ID + 1","Book_ID=(SELECT max(Book_ID) FROM Book)"))[0])
 
             for content in CategoriesTable :
                 if content[0] == Category_ID:
@@ -119,7 +118,7 @@ if st.sidebar.checkbox("Login") :
             
             Submit = cols[0].button("Submit")
             if Submit :
-                Emp.addBook(Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID)
+                Emp.addBook(Title,ISBN,Author,Publisher,Availability,Condition,Category_ID,Book_ID)
 
         elif BookMenu == "Update Book":
             pass

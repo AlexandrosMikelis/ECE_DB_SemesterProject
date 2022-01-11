@@ -96,3 +96,24 @@
 /*
 
 */
+
+
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (2,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (3,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (4,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (5,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (6,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (7,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (8,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (9,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (10,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (11,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (12,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (13,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (14,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (15,1);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (16,2);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (17,2);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (18,2);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (19,2);
+INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);

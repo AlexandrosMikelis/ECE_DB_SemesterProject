@@ -12,14 +12,14 @@ class Employee:
         self.__Configure()
 
     def __Configure(self):
-        E_data = self.Manager.SELECT("Employee","*",f"Email='{self._email}' and SSN = {self._ssn}")
+        E_data = self.Manager.SELECT("Employee","*",f"Email='{self._email}' and Employee_ID = {self._ssn}")
         if(E_data):
-            self.name = E_data[0][0]
-            self.surname = E_data[0][1]
+            self.name = E_data[0][1]
+            self.surname = E_data[0][2]
 
             Employee.Section["ID"] = E_data[0][-1]
             S_data = self.Manager.SELECT("Section","*",f"Section_ID = {E_data[0][-1]}")
-            Employee.Section["Name"] = S_data[0][0]
+            Employee.Section["Name"] = S_data[0][3]
 
             Employee.Library["ID"] = S_data[0][1]
             L_data = self.Manager.SELECT("Library","*",f"Library_ID = {S_data[0][1]}")
@@ -34,16 +34,16 @@ class Employee:
         InfoTable.append(Employee.Library)
         return InfoTable
 
-    def addBook(self,Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID):
-        self.Manager.INSERT("Book","(Title,ISBN,Author,Publisher,Availability,Quantity,Condition,Category_ID,Book_ID)",f"('{Title}',{int(ISBN)},'{Author}','{Publisher}',{bool(Availability)},{int(Quantity)},'{Condition}',{int(Category_ID)},{int(Book_ID)})")
+    def addBook(self,Title,ISBN,Author,Publisher,Availability,Condition,Category_ID,Book_ID):
+        self.Manager.INSERT("Book","(Title,ISBN,Author,Publisher,Availability,Condition,Category_ID,Book_ID)",f"('{Title}',{int(ISBN)},'{Author}','{Publisher}',{bool(Availability)},'{Condition}',{int(Category_ID)},{int(Book_ID)})")
         self.Manager.save()
     
     def showBook(self,filter,fields,values):
         val = f"and {values}" if values else ""
         if filter == 0:
-            showcase = self.Manager.SELECT("Book,Library_Link_Book",','.join(fields),f"Library_Link_Book.Book_ID = Book.Book_ID {val}")
+            showcase = self.Manager.SELECT("Book,Library_Contains_Books",','.join(fields),f"Book.Book_ID = Library_Contains_Books.Book_ID and Library_Contains_Books.Library_ID = {Employee.Library['ID']} {val}")
         elif filter == 1:
-            showcase = self.Manager.SELECT("Book,Category",','.join(fields),f"Category.Category_ID = Book.Category_ID and Section_ID = {Employee.Section['ID']}")
+            showcase = self.Manager.SELECT("Book,Category",','.join(fields),f"Category.Category_ID = Book.Category_ID and Section_ID = {Employee.Section['ID']} {val}")
         return showcase
 
     def deleteBook(self):
