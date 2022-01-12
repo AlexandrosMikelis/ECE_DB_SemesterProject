@@ -96,8 +96,9 @@
 /*
 
 */
+UPDATE Employee SET Hours_Of_Work=30 WHERE Employee_ID=23080002896;
 
-
+/*
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (2,1);
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (3,1);
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (4,1);
@@ -117,3 +118,5 @@ INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (17,2);
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (18,2);
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (19,2);
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);
+*/
+
