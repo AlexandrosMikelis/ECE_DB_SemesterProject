@@ -16,6 +16,7 @@ class Employee:
         if(E_data):
             self.name = E_data[0][1]
             self.surname = E_data[0][2]
+            self.Work_Hours = E_data[0][6]
 
             Employee.Section["ID"] = E_data[0][-1]
             S_data = self.Manager.SELECT("Section","*",f"Section_ID = {E_data[0][-1]}")
@@ -32,10 +33,11 @@ class Employee:
         InfoTable = [] + f"{self.name},{self.surname},{self._email},{self._ssn}".split(",")
         InfoTable.append(Employee.Section)
         InfoTable.append(Employee.Library)
+        InfoTable.append(f'{self.Work_Hours}')
         return InfoTable
 
-    def addBook(self,Title,ISBN,Author,Publisher,Availability,Condition,Category_ID,Book_ID):
-        self.Manager.INSERT("Book","(Title,ISBN,Author,Publisher,Availability,Condition,Category_ID,Book_ID)",f"('{Title}',{int(ISBN)},'{Author}','{Publisher}',{bool(Availability)},'{Condition}',{int(Category_ID)},{int(Book_ID)})")
+    def addBook(self,Title,ISBN,Author,Publisher,Availability,Condition,Category_ID):
+        self.Manager.INSERT("Book","(Title,ISBN,Author,Publisher,Availability,Condition,Category_ID)",f"('{Title}',{int(ISBN)},'{Author}','{Publisher}',{bool(Availability)},'{Condition}',{int(Category_ID)})")
         self.Manager.save()
     
     def showBook(self,filter,fields,values):
@@ -46,11 +48,13 @@ class Employee:
             showcase = self.Manager.SELECT("Book,Category",','.join(fields),f"Category.Category_ID = Book.Category_ID and Section_ID = {Employee.Section['ID']} {val}")
         return showcase
 
-    def deleteBook(self):
-        pass
+    def deleteBook(self,Condition):
+        self.Manager.DELETE("Book",Condition)
+        self.Manager.save()
     
-    def updateBook(self):
-        pass
+    def updateBook(self,Setter,Condition):
+        self.Manager.UPDATE("Book",Setter,Condition)
+        self.Manager.save()
     
     def showCustomer(self):
         pass
