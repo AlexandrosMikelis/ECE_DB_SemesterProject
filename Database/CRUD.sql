@@ -147,7 +147,8 @@ INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);
 /* Let's say now that Anastasia Papadimitriou wants to borrow 'Μαθηματική ανάλυση Ι' and she is a customer of 'Βιβλιοθήκη & Κέντρο Πληροφόρησης, Πανεπιστήμιο Πατρών'
 	Anastasia is a silver member so the books she borrows must be return within one month of start date.Let's say Anastasia comes to our library in 12-1-2022 to take the book.*/
 	
---INSERT INTO Borrowing (Customer_ID,Start_Date,End_Date) VALUES (2,"12-1-2022","12-2-2022");
+--INSERT INTO Borrowing (Borrow_Customer_ID,Start_Date,End_Date) VALUES (3,"12-1-2022","12-2-2022");
+--DELETE FROM Borrowing WHERE Borrow_Customer_ID=3;
 --INSERT INTO Borrowing_Contains_Books(Book_ID,Customer_Borrowing_ID) VALUES (1,2);
 
 /* LEND A BOOK  -  REAL LIFE SCENARIO*/

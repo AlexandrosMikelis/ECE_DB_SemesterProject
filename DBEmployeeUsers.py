@@ -1,4 +1,6 @@
+from distutils.log import error
 from DBManager import DBManager
+import datetime 
 
 def ClearData(data):
     clearedData = []
@@ -78,18 +80,39 @@ class Employee:
         Book_ID = None
         Customer_ID = None
 
-        Book_ID =ClearData(self.Manager.SELECT("Book","Book_ID",f"Book.Title = '{Book_Title}' and Book_ID IN (SELECT Library_Contains_Books.Book_ID FROM Library_Contains_Books WHERE Library_ID = {int(Employee.Library['ID'])})"))[0] 
+        Book_ID = ClearData(self.Manager.SELECT("Book","Book_ID",f"Book.Title = '{Book_Title}' and Book_ID IN (SELECT Library_Contains_Books.Book_ID FROM Library_Contains_Books WHERE Library_ID = {int(Employee.Library['ID'])})"))[0] 
         Customer_ID = ClearData(self.Manager.SELECT("Customer","Customer_ID",f"Email = '{Customer_Email}'"))[0]
+        MaxBooks = ClearData(self.Manager.SELECT("Customer_Membership","Max_Books",f"Customer_ID = {int(Customer_ID)}"))[0]
 
-        if Book_ID==None or Customer_ID==None:
-            return Book_ID,Customer_ID
+        Start_Date = datetime.datetime.today().strftime('%Y-%m-%d')
+        End_Date = datetime.datetime.strptime(Start_Date,'%Y-%m-%d') + datetime.timedelta(days=30)
+        End_Date = End_Date.strftime('%Y-%m-%d')
+
+        if MaxBooks > ClearData(self.Manager.SELECT("Borrowing_Contains_Books","COUNT(Customer_Borrowing_ID)",f"Customer_Borrowing_ID={int(Customer_ID)}"))[0]:
+            if Book_ID==None or Customer_ID==None:
+                return Book_ID,Customer_ID
+
+            if self.Manager.SELECT("Borrowing","Borrow_Customer_ID,Start_Date,End_Date",f"Borrow_Customer_ID = {int(Customer_ID)} and Start_Date = '{Start_Date}' and End_Date = '{End_Date}'"):
+                pass
+            else:
+                self.Manager.INSERT("Borrowing","(Borrow_Customer_ID,Start_Date,End_Date)",f"({int(Customer_ID)},'{Start_Date}','{End_Date}')")
+
+            self.Manager.INSERT("Borrowing_Contains_Books",'(Book_ID,Customer_Borrowing_ID)',f"({int(Book_ID)},{int(Customer_ID)})")
+            self.Manager.UPDATE("Book","Availability=false",f"Book_ID={int(Book_ID)}")
+            self.Manager.save()
+
+            return "Successful Lend"
+        else:
+            return "Sorry but the User cant Lend more Books from our library"
+
+    def InterLibLoan(self,isbn,quantity):
+        Book_ID = ClearData(self.Manager.SELECT("Book","Book_ID",f"ISBN = {isbn}"))[0]
+        Library_Getter_ID = Employee.Library["ID"]
+        Library_Sender_ID = ClearData(self.Manager.SELECT("Library_Contains_Books","Library_ID",f"Book_ID = {int(Book_ID)}"))[0]
         
-        self.Manager.INSERT("Borrowing","(Customer_ID,Start_Date,End_Date)",f"({int(Customer_ID)},'13-1-2022','13-2-2022')")
-        self.Manager.INSERT("Borrowing_Contains_Books",'(Book_ID,Customer_Borrowing_ID)',f"({int(Book_ID)},{int(Customer_ID)})")
-        self.Manager.UPDATE("Book","Availability=false",f"Book_ID={int(Book_ID)}")
+        self.Manager.INSERT("Inter_Library_Loaning","(Library_Sender,Library_Getter,Book_ID,Quantity)",f"({int(Library_Sender_ID)},{int(Library_Getter_ID)},{int(Book_ID)},{int(quantity)})")
         self.Manager.save()
-        return Book_ID,Customer_ID
-
+        return Book_ID,Library_Getter_ID,Library_Sender_ID,quantity
 
 class DBAdmin(Employee):
 

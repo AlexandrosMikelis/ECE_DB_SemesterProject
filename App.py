@@ -52,7 +52,7 @@ if st.sidebar.checkbox("Login") :
 
     elif menu == "Book":
         st.subheader("Manage Library Books") 
-        BookMenu = st.radio("Book Section",('Show Books','Add Book','Update Book','Delete Book','Lend a Book','Inter Loaning','New Order','New warning'))
+        BookMenu = st.radio("Book Section",('Show Books','Add Book','Update Book','Delete Book','Inter Loaning'))
 
         if BookMenu == "Show Books":
 
@@ -170,7 +170,23 @@ if st.sidebar.checkbox("Login") :
                     st.write("Congratulations, Book is deleted.")
                 except error as e :
                     st.write(e)
-        elif BookMenu == 'Lend a Book':
+        
+        elif BookMenu == 'Inter Loaning':
+            isbn = st.text_input("isbn")
+            quantity = st.text_input("quantity")
+
+            submit = st.button("Submit")
+
+            if submit:
+                st.write(Emp.InterLibLoan(isbn,int(quantity)))
+        
+        Manager.close()
+
+    elif menu == "Customer":
+        st.subheader("Manage Library Books") 
+        CustomerMenu = st.radio("Book Section",('Lend a Book','New Order','New warning')) 
+
+        if CustomerMenu == 'Lend a Book':
             st.subheader("Lend a Book from Library")
 
             C_email = st.text_input("Please Enter Customer Email")
@@ -180,15 +196,15 @@ if st.sidebar.checkbox("Login") :
             if Submit:
                 values = Emp.LendBook(C_email,Book_Title)
                 st.write(values)
-        elif BookMenu == 'Inter Loaning':
-            pass
-        elif BookMenu == 'New Order':
-            pass
-        elif BookMenu == 'New warning':
-            pass
+        
+        elif CustomerMenu == 'New Order':
+            st.write("**This Option coming really soon**")
+        
+        elif CustomerMenu == 'New warning':
+            st.write("**This Option coming really soon**")
+        
         Manager.close()
-    elif menu == "Customer":
-        pass
+
 else:
     st.subheader("Welcome Guest")
     st.write("Please **Login** with your **Employee Credentials**")
