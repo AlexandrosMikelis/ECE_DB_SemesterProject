@@ -179,4 +179,3 @@ INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);
 --INSERT INTO Customer_Orders_Book(Customer_ID,Book_ID,Date_Of_Order) VALUES (3,20,"13-1-2022");
 --INSERT INTO Inter_Library_Loaning(Library_Sender,Library_Getter,Book_ID,Quantity) VALUES (2,1,20,1);
 
-UPDATE Maintenance SET Start_Date="2022-01-18",End_Date="2022-01-20",Book_ID=1 WHERE Maintainance_Type="Bad Damage";
