@@ -50,15 +50,6 @@ if st.sidebar.checkbox("Login") :
                 EmployeeContainer[1].write(Labels[i])
                 EmployeeContainer[2].write(inf[i])
 
-        labels = Manager.SELECT("Employee","Employee.First_Name,Employee.Last_Name")
-        labels = [data[0]+" "+data[1] for data in labels]
-        sizes = [data[0] for data in Manager.SELECT("Employee","Hours_Of_Work")]
-
-        fig = plt.figure(figsize = (6, 2))
-        plt.pie(sizes,labels=labels, textprops={'fontsize': 14})
-
-        st.pyplot(fig)
-
     elif menu == "Book":
         st.subheader("Manage Library Books") 
         BookMenu = st.radio("Book Section",('Show Books','Add Book','Update Book','Delete Book','Lend a Book','Inter Loaning','New Order','New warning'))
@@ -179,6 +170,22 @@ if st.sidebar.checkbox("Login") :
                     st.write("Congratulations, Book is deleted.")
                 except error as e :
                     st.write(e)
+        elif BookMenu == 'Lend a Book':
+            st.subheader("Lend a Book from Library")
+
+            C_email = st.text_input("Please Enter Customer Email")
+            Book_Title = st.text_input("Title")
+            Submit = st.button("Submit")
+
+            if Submit:
+                values = Emp.LendBook(C_email,Book_Title)
+                st.write(values)
+        elif BookMenu == 'Inter Loaning':
+            pass
+        elif BookMenu == 'New Order':
+            pass
+        elif BookMenu == 'New warning':
+            pass
         Manager.close()
     elif menu == "Customer":
         pass

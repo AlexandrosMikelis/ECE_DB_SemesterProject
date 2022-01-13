@@ -1,5 +1,11 @@
 from DBManager import DBManager
 
+def ClearData(data):
+    clearedData = []
+    for d in data:
+        clearedData.append(d[0])
+    return tuple(clearedData)
+
 class Employee:
     Section = {"Name":"","ID":None}
     Library = {"Name":"","ID":None} 
@@ -18,8 +24,8 @@ class Employee:
             self.surname = E_data[0][2]
             self.Work_Hours = E_data[0][6]
 
-            Employee.Section["ID"] = E_data[0][-1]
-            S_data = self.Manager.SELECT("Section","*",f"Section_ID = {E_data[0][-1]}")
+            Employee.Section["ID"] = E_data[0][-2]
+            S_data = self.Manager.SELECT("Section","*",f"Section_ID = {E_data[0][-2]}")
             Employee.Section["Name"] = S_data[0][3]
 
             Employee.Library["ID"] = S_data[0][1]
@@ -68,8 +74,22 @@ class Employee:
     def deleteCustomer(self):
         pass
 
-    def LendBook(self):
-        pass
+    def LendBook(self,Customer_Email,Book_Title):
+        Book_ID = None
+        Customer_ID = None
+
+        Book_ID =ClearData(self.Manager.SELECT("Book","Book_ID",f"Book.Title = '{Book_Title}' and Book_ID IN (SELECT Library_Contains_Books.Book_ID FROM Library_Contains_Books WHERE Library_ID = {int(Employee.Library['ID'])})"))[0] 
+        Customer_ID = ClearData(self.Manager.SELECT("Customer","Customer_ID",f"Email = '{Customer_Email}'"))[0]
+
+        if Book_ID==None or Customer_ID==None:
+            return Book_ID,Customer_ID
+        
+        self.Manager.INSERT("Borrowing","(Customer_ID,Start_Date,End_Date)",f"({int(Customer_ID)},'13-1-2022','13-2-2022')")
+        self.Manager.INSERT("Borrowing_Contains_Books",'(Book_ID,Customer_Borrowing_ID)',f"({int(Book_ID)},{int(Customer_ID)})")
+        self.Manager.UPDATE("Book","Availability=false",f"Book_ID={int(Book_ID)}")
+        self.Manager.save()
+        return Book_ID,Customer_ID
+
 
 class DBAdmin(Employee):
 
