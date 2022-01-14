@@ -144,39 +144,43 @@ INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (19,2);
 INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);
 */
 
-/* Let's say now that Anastasia Papadimitriou wants to borrow 'Μαθηματική ανάλυση Ι' and she is a customer of 'Βιβλιοθήκη & Κέντρο Πληροφόρησης, Πανεπιστήμιο Πατρών'
-	Anastasia is a silver member so the books she borrows must be return within one month of start date.Let's say Anastasia comes to our library in 12-1-2022 to take the book.*/
-	
---INSERT INTO Borrowing (Borrow_Customer_ID,Start_Date,End_Date) VALUES (3,"12-1-2022","12-2-2022");
---DELETE FROM Borrowing WHERE Borrow_Customer_ID=3;
---INSERT INTO Borrowing_Contains_Books(Book_ID,Customer_Borrowing_ID) VALUES (1,2);
 
 /* LEND A BOOK  -  REAL LIFE SCENARIO*/
 ------------------------------------------------------------------------------------------------------------------------------------------
- /* Let's say that now Anastasia brought back the Book ON 18-1-2022*/
- -- UPDATE Borrowing SET Final_End_Date="18-1-2022" WHERE Customer_ID = 2;
-/*But Anastasia brought the Book in a bad condition*/
+--Let's say now that Anastasia Papadimitriou wants to borrow 'Μαθηματική ανάλυση Ι' and she is a customer of 
+--'Βιβλιοθήκη & Κέντρο Πληροφόρησης, Πανεπιστήμιο Πατρών' Anastasia is a silver member so the books she borrows 
+--must be return within one month of start date.Let's say Anastasia comes to our library in 2022-01-12 to take 
+--the book.
+--INSERT INTO Borrowing (Borrow_Customer_ID,Start_Date,End_Date) VALUES (2,"2022-01-12","2022-02-12");
+--INSERT INTO Borrowing_Contains_Books(Book_ID,Customer_Borrowing_ID) VALUES (1,2);
+ 
+--Let's say that now Anastasia brought back the Book ON 18-1-2022
+--UPDATE Borrowing SET Final_End_Date="2022-01-18" WHERE Customer_ID = 2;
+
+--But Anastasia brought the Book in a bad condition
 --UPDATE Book SET Condition='Bad' WHERE Book_ID=1;
-/*Anastasia have to take a penalty in her payment and we need to put the book in maintanance*/
+
+--Anastasia have to take a penalty in her payment and we need to put the book in maintanance
 --UPDATE Customer_Membership SET Payment = (SELECT Payment FROM Customer_Membership WHERE Customer_ID = 2) + 5 WHERE Customer_ID=2;
---INSERT INTO Maintenance(Start_Date,Maintainance_Type) VALUES ("18-1-2022","Bad Damage");
+--INSERT INTO Maintenance(Start_Date,Maintainance_Type) VALUES ("2022-01-18","Bad Damage");
 --UPDATE Book SET Availability=false WHERE Book_ID=1;
-/* And we get that book in 20-1-2022*/
---UPDATE Maintenance SET End_Date="20-1-2022" WHERE Maintenance_ID=1;
+
+--And we get that book in 20-1-2022
+--UPDATE Maintenance SET End_Date="2022-01-20" WHERE Maintenance_ID=1;
 --UPDATE Book SET Availability=true , Condition="Good" WHERE Book_ID=1;
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 /*TAKE A DAY OFF AND GET PAID IN THE SAME DAY AS EMPLOYEE*/
 -------------------------------------------------------------------------------------------------------------------------------------------
-/* Lets say Alexandros Mikelis wants to take a day off on his payment day 1-2-2022 to 4-2-2022*/
---INSERT INTO Employee_Day_Off (Description,End_Date,Start_Date,Employee_ID) VALUES ("Αναρωτική Αδεια","4-2-2022","1-2-2022",23080002896);
---INSERT INTO Employee_Payment(Payment_With_Insurance,Date,Bonus,FPA,Employee_ID,Library_ID) VALUES (1000,"1-2-2022",0,12,23080002896,1);
+/* Lets say Alexandros Mikelis wants to take a day off on his payment day 2022-02-01 to 2022-02-04*/
+--INSERT INTO Employee_Day_Off (Description,End_Date,Start_Date,Employee_ID) VALUES ("Αναρωτική Αδεια","2022-02-04","2022-02-01",23080002896);
+--INSERT INTO Employee_Payment(Payment_With_Insurance,Date,Bonus,FPA,Employee_ID,Library_ID) VALUES (1000,"2022-02-01",0,12,23080002896,1);
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 /*ORDER A BOOK THAT LIBRARY DOSENT HAVE AND LEND IT FROM ANOTHER Library
 -------------------------------------------------------------------------------------------------------------------------------------------
 /*Lets say John Skarpetis wants "Μακροοικονομική θεωρία-Ενιαίο" and ask Anastasia Papadimitriou for that 13-1-2022*/
 -------------------------------------------------------------------------------------------------------------------------------------------
---INSERT INTO Customer_Orders_Book(Customer_ID,Book_ID,Date_Of_Order) VALUES (3,20,"13-1-2022");
+--INSERT INTO Customer_Orders_Book(Customer_ID,Book_ID,Date_Of_Order) VALUES (3,20,"2022-01-13");
 --INSERT INTO Inter_Library_Loaning(Library_Sender,Library_Getter,Book_ID,Quantity) VALUES (2,1,20,1);
 
