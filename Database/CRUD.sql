@@ -192,7 +192,11 @@ INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);
 --INSERT INTO Section (Section_Name,Section_Number) VALUES ("Test",10) Result: NOT NULL constraint failed: Section.Library_ID
 -- ==================================================================================================================================================================
 
--- DELETE OF WRONG INVALID USELESS BOOK
+-- DELETE OF WRONG INVALID USELESS BOOK(TEST CASES FOR ON DELETE AND ON UPDATE)
+-- From this we understood why we should not put ON DELETE CASCADE on foreign keys of a many to many helper table.
+-- the reason is because when in Book , Borrowing , Borrowing Contains Book if Book_ID is deleted then Book_ID is deleted in Borrowing_Contains_Books 
+-- But in the Borrowing Contains Book we will delete and Customer_ID as well which is connected to Borrowing and thus we put ON DELETE SET NULL 
 -- Lets say we have a useless book none existing one for example what do we do ? 
--- INSERT INTO Book (Title,ISBN,Author,Publisher,Availability,Condition,Category_ID) VALUES ("useless",1234,"Test","Test",true,"Test",2);
+--INSERT INTO Book (Title,ISBN,Author,Publisher,Availability,Condition,Category_ID) VALUES ("useless",1234,"Test","Test",true,"Test",2);
 -- DELETE FROM Book WHERE Title="useless";
+
