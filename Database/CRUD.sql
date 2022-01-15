@@ -191,3 +191,8 @@ INSERT INTO Library_Contains_Books(Book_ID,Library_ID) VALUES (20,2);
 --INSERT INTO Section (Section_Name) VALUES ("Test") Result: NOT NULL constraint failed: Section.Section_Number
 --INSERT INTO Section (Section_Name,Section_Number) VALUES ("Test",10) Result: NOT NULL constraint failed: Section.Library_ID
 -- ==================================================================================================================================================================
+
+-- DELETE OF WRONG INVALID USELESS BOOK
+-- Lets say we have a useless book none existing one for example what do we do ? 
+-- INSERT INTO Book (Title,ISBN,Author,Publisher,Availability,Condition,Category_ID) VALUES ("useless",1234,"Test","Test",true,"Test",2);
+-- DELETE FROM Book WHERE Title="useless";
