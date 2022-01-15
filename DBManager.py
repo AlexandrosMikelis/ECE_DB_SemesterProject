@@ -1,3 +1,4 @@
+import traceback
 from types import TracebackType
 import sqlite3
 import os.path
@@ -99,22 +100,11 @@ class DBManager:
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
         print('SQLite traceback: ')
+        exc_type, exc_value, exc_tb = sys.exc_info()
+        print(traceback.format_exception(exc_type, exc_value, exc_tb))
 
     def save(self):
         self.connection.commit()
 
     def close(self):
         self.connection.close()
-
-''' 
-    RULES:
-
-    BOOK:
-        1) If a book is deleted then it must be deleted from Library link Book as well
-        2) If a book is created it must have a category and section if they dont exist they must be created first
-        3) If a book is created then a connection to a library must be created
-    
-    CATEGORY:
-        1) If a category is created it must have a section otherwise create a section
-        2) If a category is deleted then we must deleted all the containing books 
-''' 

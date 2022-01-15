@@ -1,14 +1,53 @@
 from distutils.log import error
 from DBManager import DBManager
 import datetime 
-
-def ClearData(data):
-    clearedData = []
-    for d in data:
-        clearedData.append(d[0])
-    return tuple(clearedData)
+from App import ClearData
 
 class Employee:
+    """
+    A class of a Simple Employee of a Library
+    ...
+
+    Attributes
+    ----------
+    email : str
+        Email of a registered employee in DB
+
+    ssn : int
+        SSN of that Employee
+
+    Manager : DBManager
+        A DBManager object that gives employee permissions to access and change db
+
+    Methods
+    -------
+    __Configure()
+        A private method that is called by init just to configure employee and set the basic info.
+        Making our life easier by saving library id and section of id of this employee
+
+    Info
+        Method that we use to retrieve all basic info for Employee Profile --> Home Tab
+
+    addBook(Title,ISBN,Author,Publisher,Availability,Condition,Category_ID)
+        It will add a Book with the given fields.
+
+    showBook(filter,fields,values)
+        Dynamic SELECT from Book entity , showcase of books in the section employee works
+
+    deleteBook(Condition)
+        Delete's a Book from DB with given conditions
+
+    updateBook(Setter,Condition)
+        update's Book from DB with a condition and a setter for new data
+
+    LendBook(Customer_Email,Book_Title)
+        Lend a Book with title : Book_Title to Customer with email : Customer_Email
+
+    InterLibLoan(isbn,quantity) UNSTABLE
+        Ask's for a Book from another library 
+        "NEED TO BE FIXED" function we need to put isbn that our library dosent have at all.
+    """
+
     Section = {"Name":"","ID":None}
     Library = {"Name":"","ID":None} 
 
