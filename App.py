@@ -1,22 +1,11 @@
 from logging import  error
 import streamlit as st
 from DBManager import DBManager
-from DBEmployeeUsers import Employee
+from DBEmployeeUsers import Employee,ClearData
 import numpy as np
 from PIL import Image
-'''
-    We suggest firstly understanding the DBEmployeeUsers module and then DBManager module
-'''
-DBPath = "Database/LibNetwork.db" # Database default path
 
-def ClearData(data): 
-    # A function that takes as input a data array of tuples and returns a single value tuple 
-    # Very specified function for certain jobs do not use is if you dont need only the first element of returned query array
-    # Used mainly for getting back Book ID or Category ID in right form for represantation
-    clearedData = []
-    for d in data:
-        clearedData.append(d[0])
-    return tuple(clearedData)
+DBPath = "Database/LibNetwork.db" # Database default path
 
 st.set_page_config(layout="wide") # Change inner property of streamlit for wider main window 
 st.sidebar.title("Welcome to LibNet") 
@@ -95,7 +84,6 @@ if st.sidebar.checkbox("Login") and email and ssn:
                 # make a fbv string which is the form that Employee.showBook expects
                 for length in range(len(results)):fbv_string = fbv_string + f" {filter_by_value[length]} = '{results[length]}' and"
                 fbv_string = fbv_string[:-3]
-                st.write(fbv_string)
                 DataArray = np.array(Emp.showBook(filter_,fields,fbv_string)) # Call showBooks of Employee
                 st.write(DataArray)
             

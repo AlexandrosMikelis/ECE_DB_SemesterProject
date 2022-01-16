@@ -1,7 +1,15 @@
 from distutils.log import error
 from DBManager import DBManager
 import datetime 
-from App import ClearData
+
+def ClearData(data): 
+    # A function that takes as input a data array of tuples and returns a single value tuple 
+    # Very specified function for certain jobs do not use is if you dont need only the first element of returned query array
+    # Used mainly for getting back Book ID or Category ID in right form for represantation
+    clearedData = []
+    for d in data:
+        clearedData.append(d[0])
+    return tuple(clearedData)
 
 class Employee:
     """
